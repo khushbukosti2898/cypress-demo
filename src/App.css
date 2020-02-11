@@ -39,3 +39,28 @@
 .error{
   color:red
 }
+.star{
+  color: red;
+}
+#errors{
+  color: red;
+  margin-top:30px;
+  width:500px;
+  height: 30px;
+}
+.Container{
+  /* background-color: pink; */
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+/* 
+.form{
+  background-color: red;
+  width: 500px;
+  
+} */
+.invalid{
+  border-color: red;
+}

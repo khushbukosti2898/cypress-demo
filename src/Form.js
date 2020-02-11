@@ -1,11 +1,9 @@
 import React from 'react'
-import ReactDOM from 'react-dom';
 import './App.css';
 
 import {
     Container, Col, Form,
     FormGroup, Label, Input,
-    Button,ButtonGroup
   } from 'reactstrap';
 
 class regForm extends React.Component{
@@ -18,104 +16,142 @@ class regForm extends React.Component{
             email:'',
             pwd:'',
             mobile:'',
-            gender:'',
+            gender:'male',
             city:'',
-            occupation:'',
+            occupation:'student',
             hobbies: [],
-            employee:'',
-            student:''
+            error:{}
         }
     }
 
     handleChange = (e) =>{
       
-        const target = e.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
-        this.setState({
-          [name]: value
-        })
 
         if(e.target.name==='fname'){
-          if(e.target.value==='' || e.target.value===null ){
+          if(e.target.value==='' || e.target.value===null )
+          {
             this.setState({
               fnameError:true,
+              fnameErrorDetail:false,
             })
-          } else {
+            e.target.style.borderColor="red" 
+          } else if(e.target.value.length<3){
             this.setState({
-              fnameError:false,     
+              fnameError:false,
+              fnameErrorDetail:true
+            })
+            e.target.style.borderColor="red" 
+          }
+          else {
+            e.target.style.borderColor="green" 
+            this.setState({
+              fnameError:false,
+              fnameErrorDetail:false,     
               fname:e.target.value
             })
+            
           }
         }
 
         if(e.target.name==='lname'){
-          if(e.target.value==='' || e.target.value===null ){
+          if(e.target.value==='' || e.target.value===null )
+          {
             this.setState({
               lnameError:true,
+              lnameErrorDetail:false,
             })
-          } else {
+            e.target.style.borderColor="red" 
+          } else if(e.target.value.length<3){
             this.setState({
-              lnameError:false,     
+              lnameError:false,
+              lnameErrorDetail:true
+            })
+            e.target.style.borderColor="red" 
+          }
+          else {
+            e.target.style.borderColor="green" 
+            this.setState({
+              lnameError:false,
+              lnameErrorDetail:false,     
               lname:e.target.value
             })
+            
           }
         }
 
         if(e.target.name==='email'){
+          let emailValid = e.target.value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i); 
           if(e.target.value==='' || e.target.value===null ){
             this.setState({
               emailError:true,
+              emailErrordetail:false,
             })
-          }
-            let emailValid = e.target.value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i); 
-            if(emailValid == null) {
+            e.target.style.borderColor="red" 
+          }else if(emailValid == null) {
             this.setState({
-                emailError:true,
+                emailError:false,
+                emailErrorDetail:true
             })
+            e.target.style.borderColor="red" 
           } else {
+            e.target.style.borderColor="green" 
             this.setState({
-              emailError:false,     
+              emailError:false, 
+              emailErrordetail:false,    
               email:e.target.value
             })
+            
           }
         }
 
         if(e.target.name==='pwd'){
+          let pwdValid = e.target.value.match(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/i);
           if(e.target.value==='' || e.target.value===null ){
             this.setState({
               pwdError:true,
+              pwdErrorDetail:false,
             })
+            e.target.style.borderColor="red"  
           } 
-           if(e.target.value.length<6){
+           else if(pwdValid == null){
             this.setState({
-              pwdError:true,
+              pwdError:false,
+              pwdErrorDetail:true,
             })
+            e.target.style.borderColor="red" 
           }
           else {
+            e.target.style.borderColor="green" 
             this.setState({
-              pwdError:false,     
+              pwdError:false, 
+              pwdErrorDetail:false,    
               pwd:e.target.value
             })
+            
           }
         }
 
         if(e.target.name==='mobile'){
+          let mobileValid = e.target.value.match(/^\d{10}$/); 
           if(e.target.value==='' || e.target.value===null ){
             this.setState({
               mobileError:true,
+              mobileErrorDetail:false
             })
-          }
-            let mobileValid = e.target.value.match(/^\d{10}$/); 
-            if(mobileValid == null) {
+            e.target.style.borderColor="red"
+          }else if(mobileValid === null) {
             this.setState({
-              mobileError:true,
+              mobileError:false,
+              mobileErrorDetail:true
             })
+            e.target.style.borderColor="red"
           } else {
             this.setState({
-              mobileError:false,     
+              mobileError:false,
+              mobileErrorDetail:false,     
               mobile:e.target.value
             })
+            e.target.style.borderColor="green"
           }
         }
 
@@ -140,18 +176,40 @@ class regForm extends React.Component{
           }
 
           if(e.target.name==='occupation'){
-            
+            if(e.target.value==="student"){
+              this.setState({
+                occupation:e.target.value
+              })}
+              else if(e.target.value==="employee"){
+                this.setState({
+                  occupation:e.target.value
+                })
+                }
+              else{
+                
+              }
+          }
+          if(e.target.name==='city'){
+            this.setState({
+              city: e.target.value
+            })
           }
 
     }
     validateForm = e => {
-      if(this.state.fname==false || this.state.lname==false || this.state.email==false){
-        alert("required")
-        //console.log(this.state)
-        //document.getElementById('errorMsg').innerHTML="required";
+      let {fnameError,fnameErrorDetail,lnameError,lnameErrorDetail,emailError,emailErrorDetail,
+        pwdError,pwdErrorDetail,mobileError,mobileErrorDetail}=this.state
+        /* let {fname,lname,email,
+          pwd,mobile}=this.state */
+      if(fnameError==false && fnameErrorDetail==false && 
+        lnameError==false && lnameErrorDetail==false &&
+        emailError==false && emailErrorDetail==false &&
+        pwdError==false && pwdErrorDetail==false &&
+        mobileError==false && mobileErrorDetail==false){
+        console.log("submitted");
       }
       else{
-        console.log(this.state)
+        console.log("error");
       }
     }
     render(){
@@ -162,7 +220,9 @@ class regForm extends React.Component{
         <Col>
             <FormGroup>
               <Label>First Name</Label>
+              <Label className="star">*</Label>
               <Input
+              
                 type="text"
                 name="fname"
                 id="fname"
@@ -170,7 +230,9 @@ class regForm extends React.Component{
                 onBlur={this.handleChange}
               />
               {this.state.fnameError ? 
-              <span className="error">Please enter First name</span> : ''} 
+              <span className="error">First name can't be blank</span> : ''}<br/> 
+              {this.state.fnameErrorDetail ? 
+              <span className="error">First name is too short</span> : ''} 
             </FormGroup>
         </Col>
         <Col>
@@ -188,34 +250,41 @@ class regForm extends React.Component{
         <Col>
             <FormGroup>
               <Label>Last Name</Label>
+              <Label className="star">*</Label>
               <Input
                 type="text"
                 name="lname"
-                id="lanme"
+                id="lname"
                 placeholder="Lastname"
                 onBlur={this.handleChange}
               />
               {this.state.lnameError ? 
-              <span className="error">Please enter last name</span> : ''}
+              <span className="error">Last name can't be blank</span> : ''}
+              {this.state.lnameErrorDetail ? 
+              <span className="error">Last name is too short</span> : ''} 
             </FormGroup>
         </Col>
         <Col>
             <FormGroup>
               <Label>Email</Label>
+              <Label className="star">*</Label>
               <Input
                 type="text"
                 name="email"
-                id="exampleEmail"
+                id="email"
                 placeholder="myemail@email.com"
                 onBlur={this.handleChange}
               />
               {this.state.emailError ? 
-              <span className="error">Please enter email</span> : ''}
+              <span className="error">Email can't be blank</span> : ''}
+              {this.state.emailErrorDetail ? 
+              <span className="error">Invalid Email </span> : ''} 
             </FormGroup>
           </Col>
           <Col>
             <FormGroup>
               <Label>Password</Label>
+              <Label className="star">*</Label>
               <Input
                 type="password"
                 name="pwd"
@@ -223,12 +292,15 @@ class regForm extends React.Component{
                 onBlur={this.handleChange}
               />
               {this.state.pwdError ? 
-              <span className="error">Please enter password</span> : ''}
+              <span className="error">Password can't be blank</span> : ''}
+              {this.state.pwdErrorDetail ? 
+              <span className="error">Invalid Password(length>8 and contain uppercae, lowercase and digit)</span> : ''} 
             </FormGroup>
           </Col>
           <Col>
             <FormGroup>
               <Label>Mobile</Label>
+              <Label className="star">*</Label>
               <Input
                 type="text"
                 name="mobile"
@@ -236,18 +308,21 @@ class regForm extends React.Component{
                 onBlur={this.handleChange}
               />
               {this.state.mobileError ? 
-              <span className="error">Please enter mobile no</span> : ''}
+              <span className="error">Mobile can't be blank</span> : ''}
+              {this.state.mobileErrorDetail ? 
+              <span className="error">Invalid Mobile</span> : ''}
             </FormGroup>
           </Col>
 
           <Label>Gender</Label>
+          <Label className="star">*</Label>
           <Col>
             <FormGroup>
             
               <Input
                     type="radio"
                     name="gender" 
-                    checked="checked"
+                    checked={this.state.gender === 'male'}
                     value="male"
                     onChange={this.handleChange}/>
                     <Label>Male
@@ -258,6 +333,7 @@ class regForm extends React.Component{
             <FormGroup>
               <Input
                     type="radio"
+                    checked={this.state.gender === 'female'}
                     name="gender" 
                     value="female"
                     onChange={this.handleChange}/>
@@ -267,6 +343,7 @@ class regForm extends React.Component{
           </Col>
           <Label>Hobbies
             </Label>
+            <Label className="star">*</Label>
           <Col>
           
             <FormGroup>
@@ -307,21 +384,26 @@ class regForm extends React.Component{
 
             <Col>
             <FormGroup>
-              <select>
-                  <option>Ahmedabad</option>
-                  <option>Mumbai</option>
-                  <option>Delhi</option>
+            <Label>City</Label>
+            <Label className="star">*</Label><br></br>
+              <select name="city" onChange={this.handleChange} >
+                  <option value="select">select</option>
+                  <option value="ahmedabad">Ahmedabad</option>
+                  <option value="mumbai">Mumbai</option>
+                  <option value="delhi">Delhi</option>
               </select>
             </FormGroup>
             </Col>
 
             <Col>
             <Label>Occupation</Label>
+            <Label className="star">*</Label>
             <FormGroup>
               <Input
                     type="checkbox"
                     name="occupation" 
                     value="student"
+                    checked={this.state.occupation === 'student'}
                     onChange={this.handleChange}/>
                     <Label>Student
             </Label>
@@ -333,14 +415,15 @@ class regForm extends React.Component{
                     type="checkbox"
                     name="occupation" 
                     value="employee"
-                    onBlur={this.handleChange}/>
+                    checked={this.state.occupation === 'employee'}
+                    onChange={this.handleChange}/>
                     <Label>Employee
             </Label>
             </FormGroup>
             </Col>        
             <Input type="button" value="submit" onClick={this.validateForm} ></Input>
         </Form>
-    
+              <p id="errors"></p>
         </Container>
     </div>
 
