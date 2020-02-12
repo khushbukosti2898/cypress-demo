@@ -16,223 +16,154 @@ class regForm extends React.Component{
             email:'',
             pwd:'',
             mobile:'',
-            gender:'male',
+            gender:'',
             city:'',
-            occupation:'student',
+            occupation:'',
             hobbies: [],
-            error:{}
+            error:{
+              fname:'',
+              mname:'',
+              lname:'',
+              email:'',
+              pwd:'',
+              mobile:'',
+              gender:'',
+              city:'',
+              occupation:'',
+              hobbies: '',
+            }
+
         }
+    }
+
+    handleChangeCheck = (e) =>{
+      let {hobbies,error} =this.state;
+      let {name,value,checked} =e.target;
+      let index;
+      if(checked){
+        hobbies.push(value);
+      }
+      else{
+        index=hobbies.indexOf(value)
+        hobbies.splice(index,1)
+      }
+      this.setState({hobbies},
+        ()=>{this.validateCheckField(hobbies,value) });
+    }
+
+    validateCheckField = (name, value) => {
+      let {error} = this.state;
+        if(name.length == 0) error.hobbies = "This Field Is Required"
+        else error.hobbies="";
+        this.setState({error})
     }
 
     handleChange = (e) =>{
-      
-
-        if(e.target.name==='fname'){
-          if(e.target.value==='' || e.target.value===null )
-          {
-            this.setState({
-              fnameError:true,
-              fnameErrorDetail:false,
-            })
-            e.target.style.borderColor="red" 
-          } else if(e.target.value.length<3){
-            this.setState({
-              fnameError:false,
-              fnameErrorDetail:true
-            })
-            e.target.style.borderColor="red" 
-          }
-          else {
-            e.target.style.borderColor="green" 
-            this.setState({
-              fnameError:false,
-              fnameErrorDetail:false,     
-              fname:e.target.value
-            })
-            
-          }
-        }
-
-        if(e.target.name==='lname'){
-          if(e.target.value==='' || e.target.value===null )
-          {
-            this.setState({
-              lnameError:true,
-              lnameErrorDetail:false,
-            })
-            e.target.style.borderColor="red" 
-          } else if(e.target.value.length<3){
-            this.setState({
-              lnameError:false,
-              lnameErrorDetail:true
-            })
-            e.target.style.borderColor="red" 
-          }
-          else {
-            e.target.style.borderColor="green" 
-            this.setState({
-              lnameError:false,
-              lnameErrorDetail:false,     
-              lname:e.target.value
-            })
-            
-          }
-        }
-
-        if(e.target.name==='email'){
-          let emailValid = e.target.value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i); 
-          if(e.target.value==='' || e.target.value===null ){
-            this.setState({
-              emailError:true,
-              emailErrordetail:false,
-            })
-            e.target.style.borderColor="red" 
-          }else if(emailValid == null) {
-            this.setState({
-                emailError:false,
-                emailErrorDetail:true
-            })
-            e.target.style.borderColor="red" 
-          } else {
-            e.target.style.borderColor="green" 
-            this.setState({
-              emailError:false, 
-              emailErrordetail:false,    
-              email:e.target.value
-            })
-            
-          }
-        }
-
-        if(e.target.name==='pwd'){
-          let pwdValid = e.target.value.match(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/i);
-          if(e.target.value==='' || e.target.value===null ){
-            this.setState({
-              pwdError:true,
-              pwdErrorDetail:false,
-            })
-            e.target.style.borderColor="red"  
-          } 
-           else if(pwdValid == null){
-            this.setState({
-              pwdError:false,
-              pwdErrorDetail:true,
-            })
-            e.target.style.borderColor="red" 
-          }
-          else {
-            e.target.style.borderColor="green" 
-            this.setState({
-              pwdError:false, 
-              pwdErrorDetail:false,    
-              pwd:e.target.value
-            })
-            
-          }
-        }
-
-        if(e.target.name==='mobile'){
-          let mobileValid = e.target.value.match(/^\d{10}$/); 
-          if(e.target.value==='' || e.target.value===null ){
-            this.setState({
-              mobileError:true,
-              mobileErrorDetail:false
-            })
-            e.target.style.borderColor="red"
-          }else if(mobileValid === null) {
-            this.setState({
-              mobileError:false,
-              mobileErrorDetail:true
-            })
-            e.target.style.borderColor="red"
-          } else {
-            this.setState({
-              mobileError:false,
-              mobileErrorDetail:false,     
-              mobile:e.target.value
-            })
-            e.target.style.borderColor="green"
-          }
-        }
-
-        if(e.target.name==='gender'){
-          this.setState({
-            gender: e.target.value
-          })
-        }
-
-        if(e.target.name==='hobbies'){
-          const {hobbies}=this.state
-          let index;
-          if(e.target.checked){
-            hobbies.push(e.target.value)
-          }
-          else{
-            index=hobbies.indexOf(e.target.value)
-            hobbies.splice(index,1)
-          }
-          this.setState({ hobbies:hobbies})
-          console.log(hobbies)
-          }
-
-          if(e.target.name==='occupation'){
-            if(e.target.value==="student"){
-              this.setState({
-                occupation:e.target.value
-              })}
-              else if(e.target.value==="employee"){
-                this.setState({
-                  occupation:e.target.value
-                })
-                }
-              else{
-                
-              }
-          }
-          if(e.target.name==='city'){
-            this.setState({
-              city: e.target.value
-            })
-          }
-
-    }
-    validateForm = e => {
-      let {fnameError,fnameErrorDetail,lnameError,lnameErrorDetail,emailError,emailErrorDetail,
-        pwdError,pwdErrorDetail,mobileError,mobileErrorDetail}=this.state
-        /* let {fname,lname,email,
-          pwd,mobile}=this.state */
-      if(fnameError==false && fnameErrorDetail==false && 
-        lnameError==false && lnameErrorDetail==false &&
-        emailError==false && emailErrorDetail==false &&
-        pwdError==false && pwdErrorDetail==false &&
-        mobileError==false && mobileErrorDetail==false){
-        console.log("submitted");
+      let {name, value,checked}= e.target
+      this.setState({[name]: value}, 
+        () => { this.validateField(name, value) });
+        
       }
-      else{
-        console.log("error");
+      validateField(fieldName, value) {
+        let {error} = this.state; 
+
+        switch(fieldName) {
+          case 'fname':
+            error.fname= (value === '')?"This Field Is Required":''
+            break;
+          
+          case 'lname':
+            error.lname= (value === '')?"This Field Is Required":''
+            break; 
+
+          case 'email':
+            if(value=='')
+            error.email="This Field Is Required"
+            else
+            error.email = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) ? '' : 'Email is invalid';
+            break; 
+           
+            case 'pwd':
+              if(value=='')
+              error.pwd="This Field Is Required"
+              else
+              error.pwd = value.match(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/i) ? '' : ' Email Invalid';
+              break; 
+              
+            case 'mobile':
+              if(value=='')
+              error.mobile="This Field Is Required"
+              else
+              error.mobile = value.match(/^\d{10}$/) ? '' : 'Mobile is invalid';
+              break;
+
+              case 'occupation':
+              if(value=='')
+              error.occupation="This Field Is Required"
+              else
+              error.occupation = '';
+              break;
+
+              case 'city':
+              if(value=='select')
+              error.city="This Field Is Required"
+              else
+              error.city = '';
+              break;
+
+              case 'gender':
+              if(value=='')
+              error.gender="This Field Is Required"
+              else
+              error.gender = '';
+              break;
+
+
+            default:
+              break;
+        }
+        this.setState({error});
       }
-    }
+
+
+      handleSubmit = (e) =>{
+        let {fname,mname,lname,email,pwd,mobile,gender,city,occupation,hobbies}=this.state
+        const {error} =this.state
+        if(fname == '' && lname==''&& email==''&& pwd==''&& mobile==''&& city==''&& hobbies==''){
+        Object.keys(error).map((key)=>{
+          error[key]="This Field Is Required"
+        })
+        this.setState({error:error})
+        }
+        else{
+          this.setState(error)
+        }
+
+  }
+    
     render(){
+      let {error} = this.state;
     return(<div>
+        
         <Container className="App">
-        <h2>Sign In</h2>
+        <center>
+          <h1>FORM</h1>
         <Form className="form" >
         <Col>
             <FormGroup>
               <Label>First Name</Label>
               <Label className="star">*</Label>
               <Input
-              
                 type="text"
                 name="fname"
                 id="fname"
                 placeholder="Firstname"
                 onBlur={this.handleChange}
+                onChange={this.handleChange}
               />
-              {this.state.fnameError ? 
-              <span className="error">First name can't be blank</span> : ''}<br/> 
-              {this.state.fnameErrorDetail ? 
-              <span className="error">First name is too short</span> : ''} 
+              {error.fname && (
+                  <span className="error">{error.fname}</span>
+                )}
             </FormGroup>
         </Col>
         <Col>
@@ -244,6 +175,7 @@ class regForm extends React.Component{
                 id="manme"
                 placeholder="Middlename"
                 onBlur={this.handleChange}
+                onChange={this.handleChange}
               />
             </FormGroup>
         </Col>
@@ -257,11 +189,11 @@ class regForm extends React.Component{
                 id="lname"
                 placeholder="Lastname"
                 onBlur={this.handleChange}
+                onChange={this.handleChange}
               />
-              {this.state.lnameError ? 
-              <span className="error">Last name can't be blank</span> : ''}
-              {this.state.lnameErrorDetail ? 
-              <span className="error">Last name is too short</span> : ''} 
+              {error.lname && (
+                  <span className="error">{error.lname}</span>
+                )}
             </FormGroup>
         </Col>
         <Col>
@@ -274,11 +206,11 @@ class regForm extends React.Component{
                 id="email"
                 placeholder="myemail@email.com"
                 onBlur={this.handleChange}
+                onChange={this.handleChange}
               />
-              {this.state.emailError ? 
-              <span className="error">Email can't be blank</span> : ''}
-              {this.state.emailErrorDetail ? 
-              <span className="error">Invalid Email </span> : ''} 
+              {error.email && (
+                  <span className="error">{error.email}</span>
+                )}
             </FormGroup>
           </Col>
           <Col>
@@ -290,11 +222,11 @@ class regForm extends React.Component{
                 name="pwd"
                 placeholder="********"
                 onBlur={this.handleChange}
+                onChange={this.handleChange}
               />
-              {this.state.pwdError ? 
-              <span className="error">Password can't be blank</span> : ''}
-              {this.state.pwdErrorDetail ? 
-              <span className="error">Invalid Password(length>8 and contain uppercae, lowercase and digit)</span> : ''} 
+              {error.pwd && (
+                  <span className="error">{error.pwd}</span>
+                )}
             </FormGroup>
           </Col>
           <Col>
@@ -302,15 +234,15 @@ class regForm extends React.Component{
               <Label>Mobile</Label>
               <Label className="star">*</Label>
               <Input
-                type="text"
+                type="number"
                 name="mobile"
                 id="mobile"
                 onBlur={this.handleChange}
+                onChange={this.handleChange}
               />
-              {this.state.mobileError ? 
-              <span className="error">Mobile can't be blank</span> : ''}
-              {this.state.mobileErrorDetail ? 
-              <span className="error">Invalid Mobile</span> : ''}
+              {error.mobile && (
+                  <span className="error">{error.mobile}</span>
+                )}
             </FormGroup>
           </Col>
 
@@ -340,6 +272,9 @@ class regForm extends React.Component{
                     <Label>Female
             </Label>
             </FormGroup>
+            {error.gender && (
+                  <span className="error">{error.gender}</span>
+                )}
           </Col>
           <Label>Hobbies
             </Label>
@@ -351,7 +286,8 @@ class regForm extends React.Component{
                     type="checkbox"
                     name="hobbies" 
                     value="reading"
-                    onChange={this.handleChange}/>
+                    onChange={this.handleChangeCheck}
+                    />
                     <Label>Reading
             </Label>
             </FormGroup>
@@ -363,10 +299,12 @@ class regForm extends React.Component{
                     type="checkbox"
                     name="hobbies" 
                     value="swimming"
-                    onChange={this.handleChange}/>
+                    onChange={this.handleChangeCheck}
+                    />
                     <Label>Swimming
             </Label>
             </FormGroup>
+            
             </Col>
 
             <Col>
@@ -376,10 +314,15 @@ class regForm extends React.Component{
                     type="checkbox"
                     name="hobbies" 
                     value="cooking"
-                    onChange={this.handleChange}/>
+                    onChange={this.handleChangeCheck}
+                    />
                     <Label>Cooking
             </Label>
             </FormGroup>
+            {error.hobbies && (
+                  <span className="error">{error.hobbies}</span>
+                )}
+            
             </Col>
 
             <Col>
@@ -391,7 +334,10 @@ class regForm extends React.Component{
                   <option value="ahmedabad">Ahmedabad</option>
                   <option value="mumbai">Mumbai</option>
                   <option value="delhi">Delhi</option>
-              </select>
+              </select><br/>
+              {error.city && (
+                  <span className="error">{error.city}</span>
+                )}
             </FormGroup>
             </Col>
 
@@ -420,10 +366,13 @@ class regForm extends React.Component{
                     <Label>Employee
             </Label>
             </FormGroup>
+            {error.occupation && (
+                  <span className="error">{error.occupation}</span>
+                )}
             </Col>        
-            <Input type="button" value="submit" onClick={this.validateForm} ></Input>
+            <Input type="button" value="submit" onClick={this.handleSubmit} ></Input>
         </Form>
-              <p id="errors"></p>
+        </center>
         </Container>
     </div>
 
