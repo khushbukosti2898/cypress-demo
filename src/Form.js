@@ -249,8 +249,6 @@ class regForm extends React.Component{
           <Label>Gender</Label>
           <Label className="star">*</Label>
           <Col>
-            <FormGroup>
-            
               <Input
                     type="radio"
                     name="gender" 
@@ -259,10 +257,8 @@ class regForm extends React.Component{
                     onChange={this.handleChange}/>
                     <Label>Male
             </Label>
-            </FormGroup>
             </Col>
             <Col>
-            <FormGroup>
               <Input
                     type="radio"
                     checked={this.state.gender === 'female'}
@@ -270,8 +266,7 @@ class regForm extends React.Component{
                     value="female"
                     onChange={this.handleChange}/>
                     <Label>Female
-            </Label>
-            </FormGroup>
+            </Label><br/>
             {error.gender && (
                   <span className="error">{error.gender}</span>
                 )}
@@ -280,8 +275,6 @@ class regForm extends React.Component{
             </Label>
             <Label className="star">*</Label>
           <Col>
-          
-            <FormGroup>
               <Input
                     type="checkbox"
                     name="hobbies" 
@@ -290,11 +283,8 @@ class regForm extends React.Component{
                     />
                     <Label>Reading
             </Label>
-            </FormGroup>
             </Col>
             <Col>
-            <FormGroup>
-            
               <Input
                     type="checkbox"
                     name="hobbies" 
@@ -303,13 +293,8 @@ class regForm extends React.Component{
                     />
                     <Label>Swimming
             </Label>
-            </FormGroup>
-            
             </Col>
-
             <Col>
-            <FormGroup>
-            
               <Input
                     type="checkbox"
                     name="hobbies" 
@@ -318,12 +303,11 @@ class regForm extends React.Component{
                     />
                     <Label>Cooking
             </Label>
-            </FormGroup>
+            </Col>
             {error.hobbies && (
                   <span className="error">{error.hobbies}</span>
                 )}
             
-            </Col>
 
             <Col>
             <FormGroup>
@@ -344,7 +328,8 @@ class regForm extends React.Component{
             <Col>
             <Label>Occupation</Label>
             <Label className="star">*</Label>
-            <FormGroup>
+            </Col>
+            <Col>
               <Input
                     type="checkbox"
                     name="occupation" 
@@ -353,10 +338,8 @@ class regForm extends React.Component{
                     onChange={this.handleChange}/>
                     <Label>Student
             </Label>
-            </FormGroup>
             </Col>
             <Col>
-            <FormGroup>
               <Input
                     type="checkbox"
                     name="occupation" 
@@ -365,11 +348,10 @@ class regForm extends React.Component{
                     onChange={this.handleChange}/>
                     <Label>Employee
             </Label>
-            </FormGroup>
+            </Col>  
             {error.occupation && (
                   <span className="error">{error.occupation}</span>
-                )}
-            </Col>        
+                )}      
             <Input type="button" value="submit" onClick={this.handleSubmit} ></Input>
         </Form>
         </center>
